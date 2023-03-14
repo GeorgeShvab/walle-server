@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Model, Schema, model, Document } from 'mongoose'
 import { IUser } from '../types'
 
 const UserSchema = new Schema<IUser>(
@@ -10,25 +10,56 @@ const UserSchema = new Schema<IUser>(
     },
     password: {
       type: String,
-      required: true,
+      default: null,
+    },
+    registeredWithGoogle: {
+      type: Boolean,
+      default: false,
+    },
+    activated: {
+      type: Boolean,
+      default: false,
     },
   },
   { versionKey: false, timestamps: true }
 )
 
+interface CreationArgs {
+  email: string
+  password?: string
+  registeredWithGoogle?: boolean
+  activated?: boolean
+}
+
+UserSchema.static(
+  'findOneOrCreate',
+  async function (condition: Object, createArgs: CreationArgs) {
+    const doc: (Document & IUser) | undefined = await this.findOne(condition)
+
+    if (doc) return doc
+
+    return await this.create(createArgs)
+  }
+)
+
 UserSchema.set('toObject', {
   virtuals: true,
   transform(doc, ret) {
-    let { password, ...user } = ret
-    return user
-  },
-})
-UserSchema.set('toJSON', {
-  virtuals: true,
-  transform(doc, ret) {
-    let { password, ...user } = ret
+    let { password, _id, ...user } = ret
     return user
   },
 })
 
-export default model('User', UserSchema)
+UserSchema.set('toJSON', {
+  virtuals: true,
+  transform(doc, ret) {
+    let { password, _id, ...user } = ret
+    return user
+  },
+})
+
+interface UserModel extends Model<IUser> {
+  findOneOrCreate(condition: Object, createArgs: CreationArgs): Document & IUser
+}
+
+export default model<IUser, UserModel>('User', UserSchema)

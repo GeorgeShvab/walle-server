@@ -9,6 +9,6 @@ if (!databaseUrl) {
   throw new Error('No database url')
 }
 
-const db = mongoose.connect(databaseUrl)
+const db = mongoose.connect(databaseUrl, { dbName: 'development' })
 
 export default db

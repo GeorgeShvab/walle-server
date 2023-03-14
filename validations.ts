@@ -5,6 +5,7 @@ import {
   maxLength,
   minLength,
   TAKEN_EMAIL_ERROR,
+  INCORRECT_CREDENTIALS,
 } from './responseMessages'
 import User from './models/User'
 import validator from './validator'
@@ -30,8 +31,70 @@ export const regValidation = appendValidator([
     .withMessage(INCORRECT_FORMAT)
     .bail()
     .isEmail()
-    .bail()
     .withMessage(INCORRECT_EMAIL),
+])
+
+export const logValidation = appendValidator([
+  body('password')
+    .exists()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isString()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isLength({ min: 6 })
+    .withMessage(INCORRECT_CREDENTIALS)
+    .bail()
+    .isLength({ max: 80 })
+    .withMessage(INCORRECT_CREDENTIALS),
+  body('email')
+    .exists()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isString()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isEmail()
+    .withMessage(INCORRECT_CREDENTIALS),
+])
+
+export const resetPasswordValidation = appendValidator([
+  body('verificationToken')
+    .exists()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isString()
+    .withMessage(INCORRECT_FORMAT),
+  body('password')
+    .exists()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isString()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isLength({ min: 6 })
+    .withMessage(INCORRECT_CREDENTIALS)
+    .bail()
+    .isLength({ max: 80 })
+    .withMessage(INCORRECT_CREDENTIALS),
+])
+
+export const requestResetPasswordValidation = appendValidator([
+  body('email')
+    .exists()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isString()
+    .withMessage(INCORRECT_FORMAT),
+])
+
+export const verificationValidation = appendValidator([
+  body('verificationToken')
+    .exists()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isString()
+    .withMessage(INCORRECT_FORMAT),
 ])
 
 export function appendValidator(funcs: ValidationChain[]) {

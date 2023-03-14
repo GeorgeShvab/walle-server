@@ -2,6 +2,20 @@ export const SERVER_ERROR = 'Помилка серверу'
 export const INCORRECT_FORMAT = 'Некоректний формат значення'
 export const INCORRECT_EMAIL = 'Вкажіть коректний емейл'
 export const TAKEN_EMAIL_ERROR = 'Вказаний емейл вже зареєстрований'
+export const INCORRECT_CREDENTIALS = 'Невірний емейл або пароль'
+export const GOOGLE_AUTH_ERROR = 'Невдалось авторизуватись з допомогою Google'
+export const NO_REFRESH_TOKEN_ERROR = 'Невдалось знайти рефреш токен у headers'
+export const REFRESH_TOKEN_ERROR =
+  'Рефреш токен не знайдено або час його дії вичерпався'
+export const VERIFICATION_TOKEN_ERROR =
+  'Токен некоректний або час його дії вичерпався'
+export const PASSWORD_NEEDED =
+  'Ваш аккаунт немає паролю. Очікуйте лист на вашу електронну пошту та слідуйте вказівкам у ньому'
+export const PASSWORD_UPDATED = 'Пароль успішно змінено'
+export const PASSWORD_RESET_REQUEST =
+  'Очікуйте лист на вказану електронну пошту та слідуйте вказівкам у ньому.'
+export const UNAUTHORIZED_ERROR =
+  'Щоб виконати цю дію вам потрібно авторизуватись'
 
 export const minLength = (length: number, name: string): string => {
   let word: string = 'символів'
