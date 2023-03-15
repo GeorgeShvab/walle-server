@@ -2,6 +2,8 @@ import { ObjectId, Types } from 'mongoose'
 
 export type DocumentType = 'json' | 'txt' | 'xml'
 export type AccessLevel = 'private' | 'restricted' | 'public'
+export type Mode = 'dark' | 'light'
+export type Font = 'Rubik' | 'Roboto' | 'Times'
 
 export interface AuthRequestBody {
   password: string
@@ -13,6 +15,9 @@ export interface IUser {
   password: string
   registeredWithGoogle: boolean
   activated: boolean
+  mode: Mode
+  color: sring
+  font: Font
 }
 
 export interface IDocument {
@@ -21,6 +26,13 @@ export interface IDocument {
   type: DocumentType
   owner: ObjectId
   access: AccessLevel
+}
+
+export interface ISettings {
+  owner: ObjectId
+  mode: Mode
+  color: sring
+  font: Font
 }
 
 export interface IRefreshToken {

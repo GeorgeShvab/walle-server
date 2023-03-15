@@ -20,6 +20,18 @@ const UserSchema = new Schema<IUser>(
       type: Boolean,
       default: false,
     },
+    mode: {
+      type: String,
+      default: 'light',
+    },
+    font: {
+      type: String,
+      default: 'Rubik',
+    },
+    color: {
+      type: String,
+      default: '#41608D',
+    },
   },
   { versionKey: false, timestamps: true }
 )

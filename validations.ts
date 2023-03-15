@@ -8,10 +8,12 @@ import {
   INCORRECT_CREDENTIALS,
   INCORRECT_DOCUMENT_TYPE,
   INCORRECT_DOCUMENT_ACCESS,
+  INCORRECT_COLOR,
+  INCORRECT_PASSWORD,
 } from './responseMessages'
 import User from './models/User'
 import validator from './validator'
-import { AccessLevel, DocumentType } from './types'
+import { AccessLevel, DocumentType, Font, Mode } from './types'
 import { NextFunction, Request, Response } from 'express'
 
 export const regValidation = appendValidator([
@@ -162,6 +164,72 @@ export const updateDocumentValidation = [
       .withMessage(INCORRECT_DOCUMENT_TYPE),
   ]),
 ]
+
+const fonts: Font[] = ['Roboto', 'Rubik', 'Times']
+const modes: Mode[] = ['dark', 'light']
+const settings: string[] = ['color', 'font', 'mode']
+
+export const updateSettingsValidation = [
+  (req: Request, res: Response, next: NextFunction) => {
+    const bodyKeys = Object.keys(req.body).filter((value) =>
+      settings.includes(value)
+    )
+
+    req.body = bodyKeys.reduce((prev, cur) => {
+      return { ...prev, [cur]: req.body[cur] }
+    }, {})
+
+    next()
+  },
+  ...appendValidator([
+    body('font')
+      .optional()
+      .isString()
+      .withMessage(INCORRECT_FORMAT)
+      .bail()
+      .custom((value) => fonts.includes(value)),
+    body('mode')
+      .optional()
+      .isString()
+      .withMessage(INCORRECT_FORMAT)
+      .bail()
+      .custom((value) => modes.includes(value)),
+    body('color')
+      .optional()
+      .isString()
+      .withMessage(INCORRECT_FORMAT)
+      .bail()
+      .custom((value: string) => value.charAt(0) === '#' && value.length === 7)
+      .withMessage(INCORRECT_COLOR),
+  ]),
+]
+
+export const updatePasswordValidation = appendValidator([
+  body('oldPassword')
+    .exists()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isString()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isLength({ min: 6 })
+    .withMessage(INCORRECT_PASSWORD)
+    .bail()
+    .isLength({ max: 80 })
+    .withMessage(INCORRECT_PASSWORD),
+  body('password')
+    .exists()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isString()
+    .withMessage(INCORRECT_FORMAT)
+    .bail()
+    .isLength({ min: 6 })
+    .withMessage(minLength(6, 'пароль'))
+    .bail()
+    .isLength({ max: 80 })
+    .withMessage(maxLength(80, 'пароль')),
+])
 
 export function appendValidator(funcs: ValidationChain[]) {
   return [...funcs, validator]

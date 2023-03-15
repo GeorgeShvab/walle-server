@@ -17,9 +17,12 @@ export const PASSWORD_RESET_REQUEST =
 export const UNAUTHORIZED_ERROR =
   'Щоб виконати цю дію вам потрібно авторизуватись'
 export const DOCUMENT_NOT_FOUND = 'Документ не знайдено'
+export const USER_NOT_FOUND = 'Користувача не знайдено'
 export const FORBIDDEN_DOCUMENT_ERROR = 'У вас немає доступу до цього документу'
 export const INCORRECT_DOCUMENT_TYPE = 'Некоректний формат документу'
 export const INCORRECT_DOCUMENT_ACCESS = 'Некоректний рівень доступу документу'
+export const INCORRECT_COLOR = 'Некоректний колір'
+export const INCORRECT_PASSWORD = 'Невірний пароль'
 
 export const minLength = (length: number, name: string): string => {
   let word: string = 'символів'
