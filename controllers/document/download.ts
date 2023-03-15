@@ -1,0 +1,60 @@
+import { Request, Response } from 'express'
+import {
+  DOCUMENT_NOT_FOUND,
+  FORBIDDEN_DOCUMENT_ERROR,
+  SERVER_ERROR,
+} from '../../responseMessages'
+import Document from '../../models/Document'
+import fs from 'fs'
+import path from 'path'
+
+const download = async (req: Request<{ id: string }>, res: Response) => {
+  try {
+    const doc = await Document.findOne({ _id: req.params.id })
+
+    if (!doc) {
+      return res.status(404).json({ msg: DOCUMENT_NOT_FOUND })
+    }
+
+    if (doc.access === 'private' && req.user !== doc.owner.toString()) {
+      return res.status(403).json({ msg: FORBIDDEN_DOCUMENT_ERROR })
+    }
+
+    if (!fs.existsSync(path.join(__dirname, '../../', 'files'))) {
+      fs.mkdirSync(path.join(__dirname, '../../', 'files'))
+    }
+
+    fs.writeFile(`./files/${doc.title}.${doc.type}`, doc.text, (e) => {
+      if (e) {
+        console.log('Error while creation of a file')
+        throw e
+      } else {
+        return res.download(
+          `./files/${doc.title}.${doc.type}`,
+          `${doc.title}.${doc.type}`,
+          (e) => {
+            if (e) {
+              fs.unlink(`./files/${doc.title}.${doc.type}`, () => {})
+
+              throw e
+            }
+            setTimeout(
+              () =>
+                fs.unlink(`./files/${doc.title}.${doc.type}`, (e) => {
+                  if (e) {
+                    console.log(e)
+                  }
+                }),
+              15000
+            )
+          }
+        )
+      }
+    })
+  } catch (e) {
+    console.log(e)
+    return res.status(500).json({ msg: SERVER_ERROR })
+  }
+}
+
+export default download
