@@ -7,7 +7,9 @@ const validator = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.mapped() })
+      return res
+        .status(400)
+        .json({ errors: errors.formatWith((item) => item.msg).mapped() })
     }
 
     return next()

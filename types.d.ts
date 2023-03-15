@@ -1,4 +1,7 @@
-import { Types } from 'mongoose'
+import { ObjectId, Types } from 'mongoose'
+
+export type DocumentType = 'json' | 'txt' | 'xml'
+export type AccessLevel = 'private' | 'restricted' | 'public'
 
 export interface AuthRequestBody {
   password: string
@@ -10,6 +13,14 @@ export interface IUser {
   password: string
   registeredWithGoogle: boolean
   activated: boolean
+}
+
+export interface IDocument {
+  title: string
+  text: string
+  type: DocumentType
+  owner: ObjectId
+  access: AccessLevel
 }
 
 export interface IRefreshToken {

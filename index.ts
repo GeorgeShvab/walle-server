@@ -18,8 +18,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(router)
 
+let server: any
+
 function start() {
-  app.listen(PORT, () => {
+  server = app.listen(PORT, () => {
     console.log('Server started successfully on port ' + PORT)
   })
 }
@@ -28,3 +30,5 @@ function databaseError(e: any) {
   console.log(e)
   console.log('Connection to database failed')
 }
+
+process.on('SIGTERM', () => server.close())

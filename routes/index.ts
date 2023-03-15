@@ -1,3 +1,4 @@
 import auth from './auth'
+import document from './document'
 
-export default [auth]
+export default [auth, document]
