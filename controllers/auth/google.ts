@@ -13,7 +13,7 @@ const google = async (req: Request<any, any, ReqBody>, res: Response) => {
   try {
     const { clientToken } = req.body
 
-    const data = await googleAuth(clientToken).then((res) => res?.getPayload())
+    const data = await googleAuth(clientToken)
 
     if (!data || !data.email) {
       return res.status(400).json({ msg: GOOGLE_AUTH_ERROR })
