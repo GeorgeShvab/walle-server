@@ -25,7 +25,17 @@ const updateDocument = async (
       return res.status(404).json({ msg: DOCUMENT_NOT_FOUND })
     }
 
-    if (doc.access === 'private' && req.user !== doc.owner.toString()) {
+    if (
+      (doc.access === 'private' || doc.access === 'restricted') &&
+      req.user !== doc.owner.toString()
+    ) {
+      return res.status(403).json({ msg: FORBIDDEN_DOCUMENT_ERROR })
+    }
+
+    if (
+      req.user !== doc.owner.toString() &&
+      (req.body.title || req.body.type || req.body.access)
+    ) {
       return res.status(403).json({ msg: FORBIDDEN_DOCUMENT_ERROR })
     }
 

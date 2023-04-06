@@ -5,9 +5,14 @@ import {
   SERVER_ERROR,
 } from '../../responseMessages'
 import Document from '../../models/Document'
+import { Types } from 'mongoose'
 
 const getDocument = async (req: Request<{ id: string }>, res: Response) => {
   try {
+    if (!Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ msg: DOCUMENT_NOT_FOUND })
+    }
+
     const doc = await Document.findOne({ _id: req.params.id })
 
     if (!doc) {

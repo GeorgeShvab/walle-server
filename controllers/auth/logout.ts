@@ -6,21 +6,24 @@ import {
 } from '../../responseMessages'
 import RefreshToken from '../../models/RefreshToken'
 
-const logout = async (req: Request, res: Response) => {
+const logout = async (
+  req: Request<any, any, { refreshToken: string }>,
+  res: Response
+) => {
   try {
-    const jwtRefreshToken = req.headers.refresh
+    const { refreshToken } = req.body
 
-    if (!jwtRefreshToken) {
+    if (!refreshToken) {
       return res.status(400).json({ msg: NO_REFRESH_TOKEN_ERROR })
     }
 
     const deletionData = await RefreshToken.deleteOne({
-      token: jwtRefreshToken,
+      token: refreshToken,
     })
 
-    if (!deletionData.deletedCount) {
-      return res.status(400).json({ msg: REFRESH_TOKEN_ERROR })
-    }
+    //if (!deletionData.deletedCount) {
+    //  return res.status(400).json({ msg: REFRESH_TOKEN_ERROR })
+    //}
 
     return res.status(200).json()
   } catch (e) {

@@ -1,10 +1,33 @@
 import { Request, Response } from 'express'
-import { SERVER_ERROR } from '../../responseMessages'
+import { INCORRECT_FORMAT, SERVER_ERROR } from '../../responseMessages'
 import Document from '../../models/Document'
+import { IDocument } from '../../types'
+import mongoose, { Schema, Types, isValidObjectId } from 'mongoose'
 
-const getMyDocuments = async (req: Request<{ id: string }>, res: Response) => {
+const getMyDocuments = async (req: Request, res: Response) => {
   try {
-    const docs = await Document.find({ owner: req.user }).sort('-createdAt')
+    let documentIds =
+      req.query.documents && String(req.query.documents).split(' ')
+
+    let docs: (IDocument & mongoose.Document)[]
+
+    if (typeof documentIds === 'string' && !documentIds) {
+      return res.status(200).json([])
+    }
+
+    if (documentIds && typeof documentIds === 'string') {
+      return res.status(400).json({ msg: INCORRECT_FORMAT })
+    }
+
+    if (documentIds) {
+      documentIds?.filter((item) => isValidObjectId(item))
+
+      docs = await Document.find({ owner: req.user, _id: documentIds }).sort(
+        '-createdAt'
+      )
+    } else {
+      docs = await Document.find({ owner: req.user }).sort('-createdAt')
+    }
 
     return res.status(200).json(docs)
   } catch (e) {

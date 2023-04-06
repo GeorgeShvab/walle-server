@@ -1,4 +1,7 @@
 import jsonwebtoken, { JwtPayload, TokenExpiredError } from 'jsonwebtoken'
+import dotenv from 'dotenv'
+
+dotenv.config({ path: '.env.local' })
 
 const JWT_ACCESS_SECRET: string | undefined = process.env.JWT_ACCESS_SECRET
 

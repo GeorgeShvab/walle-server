@@ -15,7 +15,7 @@ const logger = (req: Request, res: Response, next: NextFunction) => {
     if (!data) {
       return next()
     } else if (data === 'TOKEN_EXPIRED') {
-      return res.status(417).json({ msg: 'Access Token Expired' }) // I use 417 because I want to use 403 in different causes and I am not sure what to send instead of 403
+      return res.status(418).json({ msg: 'Access Token Expired' }) // I use 418 because I want to use 403 in different causes and I am not sure what to send instead of 403
     }
 
     req.user = data._id

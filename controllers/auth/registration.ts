@@ -48,7 +48,7 @@ const registration = async (
       to: email,
       subject: 'Підтвердження поштової скриньки',
       html: templateBuilder('verification.html', {
-        link: `${CLIENT_ADDRESS}/account/verify?token=${verificationToken}`,
+        link: `${CLIENT_ADDRESS}/registration/verification?token=${verificationToken}`,
       }),
       text: 'Перейдіть за посиланням щоб підтвердити електронну скриньку',
     })

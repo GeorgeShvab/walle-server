@@ -28,7 +28,7 @@ const updatePassword = async (
     const comparison = await bcrypt.compare(oldPassword, user?.password)
 
     if (!comparison) {
-      return res.status(404).json({
+      return res.status(400).json({
         errors: {
           oldPassword: INCORRECT_PASSWORD,
         },

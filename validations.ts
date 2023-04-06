@@ -165,7 +165,7 @@ export const updateDocumentValidation = [
   ]),
 ]
 
-const fonts: Font[] = ['Roboto', 'Rubik', 'Times']
+const fonts: Font[] = ['Roboto', 'Rubik', 'Roboto Slab']
 const modes: Mode[] = ['dark', 'light']
 const settings: string[] = ['color', 'font', 'mode']
 

@@ -21,7 +21,7 @@ router.get('/document/:id/download', download)
 
 router.use(routeProtection)
 
-router.post('/document', createDocumentValidation, createDocument)
+router.post('/document', createDocument)
 router.patch('/document/:id', updateDocumentValidation, updateDocument)
 router.delete('/document/:id', deleteDocument)
 router.get('/documents', getMyDocuments)

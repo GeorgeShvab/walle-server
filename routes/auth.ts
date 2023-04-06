@@ -13,6 +13,7 @@ import verify from '../controllers/auth/verify'
 import resetPassword from '../controllers/auth/resetPassword'
 import resetPasswordRequest from '../controllers/auth/resetPasswordRequest'
 import logout from '../controllers/auth/logout'
+import reAuthorize from '../controllers/auth/reAuthorize'
 
 const router = Router()
 
@@ -27,5 +28,6 @@ router.post(
   requestResetPasswordValidation,
   resetPasswordRequest
 )
+router.post('/auth/reauth', reAuthorize)
 
 export default router

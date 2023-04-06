@@ -7,6 +7,7 @@ import {
 import Document from '../../models/Document'
 import fs from 'fs'
 import path from 'path'
+import { EditorState, convertFromRaw, RawDraftContentState } from 'draft-js'
 
 const download = async (req: Request<{ id: string }>, res: Response) => {
   try {
@@ -24,7 +25,17 @@ const download = async (req: Request<{ id: string }>, res: Response) => {
       fs.mkdirSync(path.join(__dirname, '../../', 'files'))
     }
 
-    fs.writeFile(`./files/${doc.title}.${doc.type}`, doc.text, (e) => {
+    let plainText: string = ''
+
+    if (doc.text) {
+      plainText = EditorState.createWithContent(
+        convertFromRaw(JSON.parse(doc.text) as RawDraftContentState)
+      )
+        .getCurrentContent()
+        .getPlainText()
+    }
+
+    fs.writeFile(`./files/${doc.title}.${doc.type}`, plainText, (e) => {
       if (e) {
         console.log('Error while creation of a file')
         throw e

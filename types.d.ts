@@ -3,7 +3,7 @@ import { ObjectId, Types } from 'mongoose'
 export type DocumentType = 'json' | 'txt' | 'xml'
 export type AccessLevel = 'private' | 'restricted' | 'public'
 export type Mode = 'dark' | 'light'
-export type Font = 'Rubik' | 'Roboto' | 'Times'
+export type Font = 'Rubik' | 'Roboto' | 'Roboto Slab'
 
 export interface AuthRequestBody {
   password: string
