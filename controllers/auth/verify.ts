@@ -29,7 +29,7 @@ const activate = async (
 
     const tokens = await genTokens(user._id.toString())
 
-    return res.status(200).json({ user, tokens })
+    return res.status(200).json({ user, ...tokens })
   } catch (e) {
     console.log(e)
     return res.status(500).json({ msg: SERVER_ERROR })

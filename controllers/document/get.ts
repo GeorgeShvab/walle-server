@@ -3,6 +3,7 @@ import {
   DOCUMENT_NOT_FOUND,
   FORBIDDEN_DOCUMENT_ERROR,
   SERVER_ERROR,
+  UNAUTHORIZED_ERROR,
 } from '../../responseMessages'
 import Document from '../../models/Document'
 import { Types } from 'mongoose'
@@ -20,6 +21,10 @@ const getDocument = async (req: Request<{ id: string }>, res: Response) => {
     }
 
     if (doc?.access === 'private' && req.user !== doc.owner.toString()) {
+      if (!req.user) {
+        return res.status(401).json({ msg: UNAUTHORIZED_ERROR })
+      }
+
       return res.status(403).json({ msg: FORBIDDEN_DOCUMENT_ERROR })
     }
 
