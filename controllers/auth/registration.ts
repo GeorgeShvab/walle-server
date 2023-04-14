@@ -21,7 +21,11 @@ const registration = async (
   try {
     const { email, password } = req.body
 
-    const isEmailTaken = await User.findOne({ email, activated: true })
+    const isEmailTaken = await User.findOne({
+      email,
+      activated: true,
+      registeredWithGoogle: false,
+    })
 
     if (isEmailTaken) {
       return res.status(400).json({ errors: { email: TAKEN_EMAIL_ERROR } })
@@ -38,6 +42,7 @@ const registration = async (
       {
         email,
         password: hashedPassword,
+        registeredWithGoogle: false,
       },
       { upsert: true }
     )

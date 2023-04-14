@@ -39,7 +39,7 @@ export const minLength = (length: number, name: string): string => {
 
   return `${
     name.at(0)?.toUpperCase() + name.slice(1, name.length)
-  } повинен складатись принанні з ${length} ${word}`
+  } повинен містити принанні ${length} ${word}`
 }
 
 export const maxLength = (length: number, name: string): string => {

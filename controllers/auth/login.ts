@@ -28,28 +28,13 @@ const login = async (
 
     const user = await User.findOne({ email })
 
-    if (!user) {
+    if (!user || !user.password) {
       return res.status(404).json({
         errors: {
           email: INCORRECT_CREDENTIALS,
           password: INCORRECT_CREDENTIALS,
         },
       })
-    }
-
-    if (user.registeredWithGoogle) {
-      const verificationToken = genVerificationToken(email)
-
-      await sendEmail({
-        to: email,
-        subject: 'Зміна паролю',
-        html: templateBuilder('reset_password.html', {
-          link: `${CLIENT_ADDRESS}/account/password/reset?token=${verificationToken}`,
-        }),
-        text: 'Перейдіть за посиланням щоб перейти до зміни паролю',
-      })
-
-      return res.status(204).json({ msg: PASSWORD_NEEDED })
     }
 
     const comparison = await bcrypt.compare(password, user.password)

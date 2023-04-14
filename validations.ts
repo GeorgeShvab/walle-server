@@ -79,10 +79,10 @@ export const resetPasswordValidation = appendValidator([
     .withMessage(INCORRECT_FORMAT)
     .bail()
     .isLength({ min: 6 })
-    .withMessage(INCORRECT_CREDENTIALS)
+    .withMessage(minLength(6, 'пароль'))
     .bail()
     .isLength({ max: 80 })
-    .withMessage(INCORRECT_CREDENTIALS),
+    .withMessage(maxLength(80, 'пароль')),
 ])
 
 export const requestResetPasswordValidation = appendValidator([

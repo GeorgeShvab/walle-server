@@ -22,7 +22,7 @@ router.post('/auth/login', logValidation, login)
 router.post('/auth/logout', logout)
 router.post('/auth/google', googleAuth)
 router.post('/auth/verify', verificationValidation, verify)
-router.post('/auth/reset-password', resetPasswordValidation, resetPassword)
+router.patch('/auth/reset-password', resetPasswordValidation, resetPassword)
 router.post(
   '/auth/request-reset-password',
   requestResetPasswordValidation,
