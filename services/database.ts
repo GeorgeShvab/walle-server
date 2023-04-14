@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
+dotenv.config()
 dotenv.config({ path: '.env.local' })
 
 const databaseUrl: string | undefined = process.env.DATABASE_URL
