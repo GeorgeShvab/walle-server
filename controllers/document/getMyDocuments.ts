@@ -3,11 +3,14 @@ import { INCORRECT_FORMAT, SERVER_ERROR } from '../../responseMessages'
 import Document from '../../models/Document'
 import { IDocument } from '../../types'
 import mongoose, { Schema, Types, isValidObjectId } from 'mongoose'
+import validateOrder from '../../utils/validateOrder'
 
 const getMyDocuments = async (req: Request, res: Response) => {
   try {
     let documentIds =
       req.query.documents && String(req.query.documents).split(' ')
+
+    let order = validateOrder(String(req.query.order))
 
     let docs: (IDocument & mongoose.Document)[]
 
@@ -23,10 +26,10 @@ const getMyDocuments = async (req: Request, res: Response) => {
       documentIds?.filter((item) => isValidObjectId(item))
 
       docs = await Document.find({ owner: req.user, _id: documentIds }).sort(
-        '-createdAt'
+        order
       )
     } else {
-      docs = await Document.find({ owner: req.user }).sort('-createdAt')
+      docs = await Document.find({ owner: req.user }).sort(order)
     }
 
     return res.status(200).json(docs)
