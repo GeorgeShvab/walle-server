@@ -26,7 +26,7 @@ const login = async (
   try {
     const { password, email } = req.body
 
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email, registeredWithGoogle: false })
 
     if (!user || !user.password) {
       return res.status(404).json({

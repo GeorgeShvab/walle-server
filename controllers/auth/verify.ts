@@ -19,7 +19,7 @@ const activate = async (
 
     const user = await User.findOneAndUpdate(
       { email: data.email },
-      { activated: true },
+      { activated: true, registeredWithGoogle: false },
       { returnOriginal: false }
     )
 

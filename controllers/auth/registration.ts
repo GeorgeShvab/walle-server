@@ -42,7 +42,6 @@ const registration = async (
       {
         email,
         password: hashedPassword,
-        registeredWithGoogle: false,
       },
       { upsert: true }
     )
