@@ -23,7 +23,9 @@ const passwordReset = async (
     const data = verifyVerificationToken(verificationToken)
 
     if (!data) {
-      return res.status(400).json({ msg: VERIFICATION_TOKEN_ERROR })
+      return res
+        .status(400)
+        .json({ errors: { verificationToken: VERIFICATION_TOKEN_ERROR } })
     }
 
     const salt = await bcrypt.genSalt(10)

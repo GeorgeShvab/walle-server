@@ -10,7 +10,7 @@ export const REFRESH_TOKEN_ERROR =
 export const VERIFICATION_TOKEN_ERROR =
   'Токен некоректний або час його дії вичерпався'
 export const PASSWORD_NEEDED =
-  'Ваш аккаунт немає паролю. Очікуйте лист на вашу електронну пошту та слідуйте вказівкам у ньому'
+  'Ваш аккаунт немає пароля. Очікуйте лист на вашу електронну пошту та слідуйте вказівкам у ньому'
 export const PASSWORD_UPDATED = 'Пароль успішно змінено'
 export const PASSWORD_RESET_REQUEST =
   'Очікуйте лист на вказану електронну пошту та слідуйте вказівкам у ньому.'
@@ -23,6 +23,7 @@ export const INCORRECT_DOCUMENT_TYPE = 'Некоректний формат до
 export const INCORRECT_DOCUMENT_ACCESS = 'Некоректний рівень доступу документу'
 export const INCORRECT_COLOR = 'Некоректний колір'
 export const INCORRECT_PASSWORD = 'Невірний пароль'
+export const NO_PASSWORD_RESET_TOKEN = 'Токен для зміни пароля не знайдено'
 
 export const minLength = (length: number, name: string): string => {
   let word: string = 'символів'

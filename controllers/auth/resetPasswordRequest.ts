@@ -23,11 +23,11 @@ const resetPasswordRequest = async (
 
     await sendEmail({
       to: email,
-      subject: 'Зміна паролю',
+      subject: 'Зміна пароля',
       html: templateBuilder('reset_password.html', {
-        link: `${CLIENT_ADDRESS}/account/password/reset?token=${verificationToken}`,
+        link: `${CLIENT_ADDRESS}/account/reset-password?token=${verificationToken}`,
       }),
-      text: 'Перейдіть за посиланням щоб перейти до зміни паролю',
+      text: 'Перейдіть за посиланням щоб перейти до зміни пароля',
     })
 
     return res.status(200).json({ msg: PASSWORD_RESET_REQUEST })

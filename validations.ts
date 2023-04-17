@@ -10,6 +10,8 @@ import {
   INCORRECT_DOCUMENT_ACCESS,
   INCORRECT_COLOR,
   INCORRECT_PASSWORD,
+  NO_PASSWORD_RESET_TOKEN,
+  VERIFICATION_TOKEN_ERROR,
 } from './responseMessages'
 import User from './models/User'
 import validator from './validator'
@@ -67,10 +69,10 @@ export const logValidation = appendValidator([
 export const resetPasswordValidation = appendValidator([
   body('verificationToken')
     .exists()
-    .withMessage(INCORRECT_FORMAT)
+    .withMessage(VERIFICATION_TOKEN_ERROR)
     .bail()
     .isString()
-    .withMessage(INCORRECT_FORMAT),
+    .withMessage(VERIFICATION_TOKEN_ERROR),
   body('password')
     .exists()
     .withMessage(INCORRECT_FORMAT)
